@@ -1,4 +1,4 @@
-const { MongoError } = require("mongodb");
+const { MongoError } = require("serverless-mongodb");
 
 module.exports = errorHandler;
 
