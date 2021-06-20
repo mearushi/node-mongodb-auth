@@ -1,0 +1,40 @@
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+custom:
+  allowed-headers:
+    - Content-Type
+    - X-Amz-Date
+    - Authorization
+    - X-Api-Key
+    - X-Amz-Security-Token
+    - X-Amz-User-Agent
+    - Access-Control-Allow-Origin
+
+service: auth-test
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: ap-south-1
+
+functions:
+  app:
+    handler: server/app.server # reference the file and exported method
+    events: # events trigger lambda functions
+      - http: # this is an API Gateway HTTP event trigger
+          path: /
+          method: ANY
+          cors:
+              origins: '*'
+              headers: ${self:custom.allowed-headers}
+              allowCredentials: true
+      - http: # all routes get proxied to the Express router
+          path: /{proxy+}
+          method: ANY
+          cors:
+              origins: '*'
+              headers: ${self:custom.allowed-headers}
+              allowCredentials: true

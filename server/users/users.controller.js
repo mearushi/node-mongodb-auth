@@ -3,13 +3,13 @@ const router = express.Router();
 const userService = require('./user.service');
 
 // routes
-router.post('/login', login);
+router.post('/login', userLogin);
 router.post('/register', register);
 router.get('/user', getUserDetails);
 
 module.exports = router;
 
-function login(req, res, next) {
+function userLogin(req, res, next) {
   userService.authenticate(req.body)
     .then(user => user ? res.json(user) : res.status(400).json({ message: 'Username or password is incorrect' }))
     .catch(err => next(err));
